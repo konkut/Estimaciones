@@ -1,0 +1,232 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <link href="style.css" rel="stylesheet">
+    
+    <title>Estimacion de costos</title>
+  </head>
+  <body >
+    <div class="container-fluid">
+      <div class="row accordion" id="accordionExample">
+         <p class="col-12 col-sm-3 col-md-3 d-flex flex-column justify-content-around menu ">
+            <button class="btn btn-sm btn-outline-light my-1" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">COCOMO 1</button>
+            <button class="btn btn-sm btn-outline-light collapsed my-1" type="button" data-bs-toggle="collapse" data-bs-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">PUNTO DE FUNCIÓN</button>
+            <button class="btn btn-sm btn-outline-light collapsed my-1" type="button" data-bs-toggle="collapse" data-bs-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree">LINEAS DE CODIGO</button>
+            <button class="btn btn-sm btn-outline-light collapsed my-1" type="button" data-bs-toggle="collapse" data-bs-target="#collapseFour" aria-expanded="false" aria-controls="collapseFour">COCOMO INTERMEDIO</button>
+            <button class="btn btn-sm btn-outline-light collapsed my-1" type="button" data-bs-toggle="collapse" data-bs-target="#collapseFive" aria-expanded="false" aria-controls="collapseFive">COSMIC</button>
+         </p>
+    
+         <div class="col-12 col-sm-9 col-md-9">
+           <div id="collapseOne" class="accordion-collapse collapse show" data-bs-parent="#accordionExample">
+
+            <div class="row text-white-50 accordion-body">
+                <div class="col-12">
+                  <h1 class="text-white-50 fw-bolder mt-5 text-center">COCOMO 1</h1>
+                </div>
+                <div class="col-12 col-sm-4 ">
+                  <label>interpretacion de complejidad  </label><br> <input class="form-control" type="text" value="" id="val" placeholder="entre 100 - 500">
+                </div>
+                <div class="col-12 col-sm-4 ">
+                  <label>Valor SE  </label><br> <input class="form-control" type="text" value="" id="se" placeholder="Ingrese numero de salidas y entradas">
+                </div>
+                <div class="col-12 col-sm-4 ">
+                  <label>Valor CH  </label><br> <input class="form-control" type="text" value="" id="ch" placeholder="Ingrese costo honorario">
+                </div>
+                
+                <div class="col-12 d-grid">
+                  <input type="button" value="Calcular" class="btn btn-outline-light btn-block my-3" onclick="calcular()">
+                </div>
+                 <div class="col-12">
+                  <section id="solucion" class="text-white-50 text-center"></section>
+                </div>
+            </div>
+           </div>
+           <div id="collapseTwo" class="accordion-collapse collapse" data-bs-parent="#accordionExample">
+          
+          <div class="row text-white-50 accordion-body">
+            <div class="col-12">
+              <h1 class="text-white-50 fw-bolder mt-5 text-center">PUNTO DE FUNCIÓN</h1>
+            </div>
+            <div class="col-12 col-sm-4 ">
+              <label>Numero de entradas de usuario</label><br> <input class="form-control" type="text" value="" id="entrada" placeholder="Entradas">
+            </div>
+            <div class="col-12 col-sm-4 ">
+              <label>Número de salidas de usuario</label><br> <input class="form-control" type="text" value="" id="salida" placeholder="Salidas">
+            </div>
+            <div class="col-12 col-sm-4 ">
+              <label>Número de peticiones de usuario</label><br> <input class="form-control" type="text" value="" id="consulta" placeholder="Consultas">
+            </div>
+            <div class="col-12 col-sm-6 ">
+              <label>Número de archivos lógicos internos</label><br> <input class="form-control" type="text" value="" id="archivoInterno" placeholder="Archivos logicos internos">
+            </div>
+            <div class="col-12 col-sm-6 ">
+              <label>Número de interfaces externa</label><br> <input class="form-control" type="text" value="" id="archivoExterno" placeholder="Archivo interfaz externa">
+            </div>
+            <div class="col-12 col-sm-6 ">
+              <label>Número de desarrolladores</label><br> <input class="form-control" type="text" value="" id="desarrolladores" placeholder="numero de desarrolladores">
+            </div>
+            <div class="col-12 col-sm-6 ">
+              <label>Número de horas de trabajo</label><br> <input class="form-control" type="text" value="" id="horas" placeholder="numero de horas de trabajo">
+            </div>
+            <div class="col-12 ">
+              <h3 class="text-white-50 fw-bolder mt-5 text-center">Factor de Ponderación</h3>
+              <div class="d-flex justify-content-evenly">
+                <p><label>Simple</label><input class="ms-3 form-radio" name="factor" type="radio" value="" id="simple"></p>
+                <p><label>Medio</label><input class="ms-3 form-radio" name="factor" type="radio" value="" id="medio"></p>
+                <p><label>Complejo</label><input class="ms-3 form-radio" name="factor"type="radio" value="" id="complejo"></p>
+              </div>
+            </div>
+    
+            <div class="col-12">
+              <h3 class="text-white-50 fw-bolder text-center">Cuestionario valores de ajuste</h3>
+            </div>
+            <div class="col-12 ">
+              <div class="row d-flex justify-content-between">
+                <label class="col-9">1. ¿Requiere el sistema copias de seguridad y recuperación fiable?</label><select  class="form-select form-select-sm w-25 pregunta" onchange="cambiar()"><option>-seleccione-</option><option value="0">0</option><option value="1">1</option><option value="2">2</option><option value="3">3</option><option value="4">4</option><option value="5">5</option></select>
+              </div>
+              <div class="row d-flex justify-content-between">  
+                <label class="col-9">2. ¿Se requiere comunicación de datos?</label><select class="col-2 form-select form-select-sm w-25 pregunta" onchange="cambiar()"><option>-seleccione-</option><option value="0">0</option><option value="1">1</option><option value="2">2</option><option value="3">3</option><option value="4">4</option><option value="5">5</option></select><br>
+              </div>
+              <div class="row d-flex justify-content-between">  
+                <label class="col-9">3. ¿Existen funciones de procesamiento distribuido?</label><select class="col-2 form-select form-select-sm w-25 pregunta" onchange="cambiar()"><option>-seleccione-</option><option value="0">0</option><option value="1">1</option><option value="2">2</option><option value="3">3</option><option value="4">4</option><option value="5">5</option></select><br>
+              </div>
+              <div class="row d-flex justify-content-between">  
+                <label class="col-9">4. ¿Es critico el rendimiento?</label><select class="col-2 form-select form-select-sm w-25 pregunta" onchange="cambiar()"><option>-seleccione-</option><option value="0">0</option><option value="1">1</option><option value="2">2</option><option value="3">3</option><option value="4">4</option><option value="5">5</option></select><br>
+              </div>
+              <div class="row d-flex justify-content-between">  
+                <label class="col-9">5. ¿Sera ejecutado el sistema en un entorno operativo existente y frecuentemente utilizado?</label><select class="col-2 form-select form-select-sm w-25 pregunta" onchange="cambiar()"><option>-seleccione-</option><option value="0">0</option><option value="1">1</option><option value="2">2</option><option value="3">3</option><option value="4">4</option><option value="5">5</option></select><br>
+              </div>
+              <div class="row d-flex justify-content-between">  
+                <label class="col-9">6. ¿Requiere el sistema entrada de datos interactivo?</label><select class="col-2 form-select form-select-sm w-25 pregunta" onchange="cambiar()"><option>-seleccione-</option><option value="0">0</option><option value="1">1</option><option value="2">2</option><option value="3">3</option><option value="4">4</option><option value="5">5</option></select><br>
+              </div>
+              <div class="row d-flex justify-content-between">  
+                <label class="col-9">7. ¿Requiere la entrada de datos interactivo que las transiciones de entrada se lleven a cabo sobre multiples o variadas operaciones?</label><select class="col-2 form-select form-select-sm w-25 pregunta" onchange="cambiar()"><option>-seleccione-</option><option value="0">0</option><option value="1">1</option><option value="2">2</option><option value="3">3</option><option value="4">4</option><option value="5">5</option></select><br>
+              </div>
+              <div class="row d-flex justify-content-between">  
+                <label class="col-9">8. ¿Se actualizan los archivos maestros en forma interactiva?</label><select class="col-2 form-select form-select-sm w-25 pregunta" onchange="cambiar()"><option>-seleccione-</option><option value="0">0</option><option value="1">1</option><option value="2">2</option><option value="3">3</option><option value="4">4</option><option value="5">5</option></select><br>
+              </div>
+              <div class="row d-flex justify-content-between">  
+                <label class="col-9">9. ¿Son complejas las entradas, las salidas, los archivos o peticiones?</label><select class="col-2 form-select form-select-sm w-25 pregunta" onchange="cambiar()"><option>-seleccione-</option><option value="0">0</option><option value="1">1</option><option value="2">2</option><option value="3">3</option><option value="4">4</option><option value="5">5</option></select><br>
+              </div>
+              <div class="row d-flex justify-content-between">  
+                <label class="col-9">10. ¿Es complejo el procesamiento interno?</label><select class="col-2 form-select form-select-sm w-25 pregunta" onchange="cambiar()"><option>-seleccione-</option><option value="0">0</option><option value="1">1</option><option value="2">2</option><option value="3">3</option><option value="4">4</option><option value="5">5</option></select><br>
+              </div>
+              <div class="row d-flex justify-content-between">  
+                <label class="col-9">11. ¿Se ha diseñado el codigo para ser reutilizable?</label><select class="col-2 form-select form-select-sm w-25 pregunta" onchange="cambiar()"><option>-seleccione-</option><option value="0">0</option><option value="1">1</option><option value="2">2</option><option value="3">3</option><option value="4">4</option><option value="5">5</option></select><br>
+              </div>
+              <div class="row d-flex justify-content-between">  
+                <label class="col-9">12. ¿Estan incluidos en el diseño la coversion y la instalación?</label><select class="col-2 form-select form-select-sm w-25 pregunta" onchange="cambiar()"><option>-seleccione-</option><option value="0">0</option><option value="1">1</option><option value="2">2</option><option value="3">3</option><option value="4">4</option><option value="5">5</option></select><br>
+              </div>
+              <div class="row d-flex justify-content-between">  
+                <label class="col-9">12. ¿Estan incluidos en el diseño la coversion y la instalación?</label><select class="col-2 form-select form-select-sm w-25 pregunta" onchange="cambiar()"><option>-seleccione-</option><option value="0">0</option><option value="1">1</option><option value="2">2</option><option value="3">3</option><option value="4">4</option><option value="5">5</option></select><br>
+              </div>
+              <div class="row d-flex justify-content-between">  
+                <label class="col-9">14. ¿Se ha diseñado la aplicación para facilitar los cambios y para ser facilmente utilizada por el usuario?</label><select class="col-2 form-select form-select-sm w-25 pregunta" onchange="cambiar()"><option>-seleccione-</option><option value="0">0</option><option value="1">1</option><option value="2">2</option><option value="3">3</option><option value="4">4</option><option value="5">5</option></select><br>
+              </div>
+            <div class="col-12 d-grid">
+              <input type="button" value="Calcular" class="btn btn-outline-light btn-block my-3" onclick="calcularPuntoFuncion()">
+            </div>
+             <div class="col-12">
+              <section id="solucionPuntoFuncion" class="text-white-50 text-center"></section>
+            </div>
+        </div>
+        </div>
+           </div>
+           <div id="collapseThree" class="accordion-collapse collapse" data-bs-parent="#accordionExample">
+          
+            <div class="row text-white-50 accordion-body">
+              <div class="col-12">
+                <h1 class="text-white-50 fw-bolder mt-5 text-center">LINEAS DE CODIGO</h1>
+              </div>
+              <div class="col-12 col-sm-6 ">
+                <label>Ingrese el numero de lineas de codigo</label><br> <input class="form-control" type="text" value="" id="ldc1" placeholder="Ingrese numero de lineas de codigo">
+              </div>
+              <div class="col-12 col-sm-6 ">
+                <label>Ingrese el costo</label><br> <input class="form-control" type="text" value="" id="ch1" placeholder="Ingrese valor del costo honorario">
+              </div>
+              <div class="col-12 d-grid">
+                <input type="button" value="Calcular" class="btn btn-outline-light btn-block my-3" onclick="calcularlineasDeCodigo()">
+              </div>
+               <div class="col-12">
+                <section id="solucionLdc" class="text-white-50 text-center"></section>
+              </div>
+
+             </div>
+           </div>
+           <div id="collapseFour" class="accordion-collapse collapse" data-bs-parent="#accordionExample">
+          
+            <div class="row text-white-50 accordion-body">
+              <div class="col-12">
+                <h1 class="text-white-50 fw-bolder mt-5 text-center">COCOMO INTERMEDIO</h1>
+              </div>
+              <div class="col-12 col-sm-6 ">
+                <label>Ingrese valor de MLDC</label><br> <input class="form-control" type="text" onchange="metodoCambio()" value="" id="mldcci" placeholder="Ingrese numero miles de lineas de codigo">
+              </div>
+              <div class="col-12 col-sm-6 ">
+                <label>Ingrese el costo inicial</label><br> <input class="form-control" type="text" value="" id="cci" placeholder="Ingrese valor costo">
+              </div>
+              <div class="col-12 ">
+                <h3 class="text-white-50 fw-bolder mt-5 text-center">Metodo de desarrollo</h3>
+                <div class="d-flex justify-content-evenly">
+                  <p><label>Orgánico</label><input class="ms-3 form-radio" name="metodo" type="radio" value="" id="organico"></p>
+                  <p><label>Semi-acoplado</label><input class="ms-3 form-radio" name="metodo" type="radio" value="" id="semiAcoplado"></p>
+                  <p><label>Acoplado</label><input class="ms-3 form-radio" name="metodo"type="radio" value="" id="acoplado"></p>
+                </div>
+              </div>  
+              <div class="col-12 ">
+                <h3 class="text-white-50 fw-bolder mt-5 text-center">Seleccione complejidad del software</h3>
+                <div class="d-flex justify-content-evenly">
+                  <p><label>Muy bajo</label><input class="ms-3 form-radio" name="complejidad" type="radio" value="" id="muyBajo"></p>
+                  <p><label>Bajo</label><input class="ms-3 form-radio" name="complejidad" type="radio" value="" id="bajo"></p>
+                  <p><label>Medio</label><input class="ms-3 form-radio" name="complejidad"type="radio" value="" id="medioci"></p>
+                  <p><label>Alto</label><input class="ms-3 form-radio" name="complejidad"type="radio" value="" id="alto"></p>
+                  <p><label>Muy alto</label><input class="ms-3 form-radio" name="complejidad"type="radio" value="" id="muyAlto"></p>
+                  <p><label>Extra</label><input class="ms-3 form-radio" name="complejidad"type="radio" value="" id="extra"></p>
+                </div>
+              </div>  
+              <div class="col-12 d-grid">
+                <input type="button" value="Calcular" class="btn btn-outline-light btn-block my-3" onclick="calcularCocomoInt()">
+              </div>
+               <div class="col-12">
+                <section id="solucionCocomoInt" class="text-white-50 text-center"></section>
+              </div>
+
+             </div>
+           </div>
+           <div id="collapseFive" class="accordion-collapse collapse" data-bs-parent="#accordionExample">
+          
+            <div class="row text-white-50 accordion-body">
+              <div class="col-12">
+                <h1 class="text-white-50 fw-bolder mt-5 text-center">COSMIC</h1>
+              </div>
+              <div class="col-12 col-sm-6 col-md-4 ">
+                <label>Ingrese el costo inicial</label><br> <input class="form-control" type="text" value="" id="cc" placeholder="Ingrese costo inicial">
+              </div>
+              <div class="col-12 col-sm-6 col-md-4 ">
+                <label>Ingrese el valor del punto función</label><br> <input class="form-control" type="text" value="" id="pfc" placeholder="Ingrese valor de punto función">
+              </div>
+              <div class="col-12 col-sm-12 col-md-4 ">
+                <label>Ingrese el valor KLDC</label><br> <input class="form-control" type="text" value="" id="mldcc" placeholder="Ingrese el valor de KLDC">
+              </div>
+              <div class="col-12 d-grid">
+                <input type="button" value="Calcular" class="btn btn-outline-light btn-block my-3" onclick="calcularCosmic()">
+              </div>
+               <div class="col-12">
+                <section id="solucionCosmic" class="text-white-50 text-center"></section>
+              </div>
+
+             </div>
+           </div>
+           
+      </div>
+    
+     </div>
+
+    
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+    <script src="script.js"></script>
+  </body>
+</html>
